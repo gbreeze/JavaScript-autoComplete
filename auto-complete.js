@@ -154,7 +154,7 @@ var autoComplete = (function(){
                 else if (key == 13 || key == 9) {
                     var sel = that.sc.querySelector('.autocomplete-suggestion.selected');
                     if (sel && that.sc.style.display != 'none') { o.onSelect(e, sel.getAttribute('data-val'), sel); setTimeout(function(){ that.sc.style.display = 'none'; }, 20); }
-                    else if (key == 13) {
+                    else if (that.sc.style.display != 'none' && key == 13) {
                         that.sc.style.display = 'none';
                     }
                 }
