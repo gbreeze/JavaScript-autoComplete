@@ -105,12 +105,20 @@ var autoComplete = (function () {
             }, that.sc);
 
             that.blurHandler = function () {
-                try { var over_sb = document.querySelector('.autocomplete-suggestions:hover'); } catch (e) { var over_sb = 0; }
+                // bug fix: there is no ':hover' on (windows) phones
+                var over_sb = document.querySelector('.autocomplete-suggestions:active');
                 if (!over_sb) {
                     that.last_val = that.value;
                     that.sc.style.display = 'none';
-                    setTimeout(function () { that.sc.style.display = 'none'; }, 350); // hide suggestions on fast input
-                } else if (that !== document.activeElement) setTimeout(function () { that.focus(); }, 20);
+                    setTimeout(function () {
+                        that.sc.style.display = 'none';
+                    }, 350); // hide suggestions on fast input
+                } else if (that !== document.activeElement) {
+                    setTimeout(function () {
+                        that.focus();
+                        that.selectionStart = that.value.length;
+                    }, 20);
+                }
             };
             addEvent(that, 'blur', that.blurHandler);
 
